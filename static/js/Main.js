@@ -15,18 +15,32 @@ class Main {
     }
 
     FillSelect(selectData) {
-        console.log(selectData)
+        let sData = JSON.parse(selectData)
+        let select = $('#sID').html('')
+        for (let i in sData) {
+            let option = $('<option>')
+                .attr('value', sData[i]._id)
+                .html(sData[i]._id)
+            select.append(option)
+        }
     }
 
     FillData(tableData) {
-        console.log(tableData)
+        let dData = JSON.parse(tableData)
+        $('#dDisplay').html('')
+            .html(JSON.stringify(dData, undefined, 2))
     }
 
     InitListeners() {
         $('#bAdd').on('click', () => {
             let name = $('#iName').val()
             let pass = $('#iPass').val()
-            net.Insert(name, pass)
+
+            if (name != '')
+                net.Insert(name, pass)
+
+            $('#iName').val('')
+            $('#iPass').val('')
         })
 
         $('#bRefresh').on('click', () => {
@@ -35,18 +49,20 @@ class Main {
 
         $('#bDelete').on('click', () => {
             let id = $('#sID').val()
-            console.log('temp_Remove: ' + id)
             if (id) {
-                console.log('Remove: ' + id)
+                net.DeleteID(id)
             }
         })
 
         $('#bUpdate').on('click', () => {
             let id = $('#sID').val()
-            console.log('temp_Update: ' + id)
+            let pass = $('#iPass').val()
             if (id) {
-                console.log('Update: ' + id)
+                net.UpdateID(id, pass)
             }
+
+            $('#iName').val('')
+            $('#iPass').val('')
         })
     }
 }

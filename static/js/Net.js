@@ -1,8 +1,12 @@
 console.log('net.js loaded')
 
+let pClass
+
 class Net {
     constructor() {
         console.log('Net Initialized')
+        pClass = this
+        this.SelectAll()
     }
 
     SelectAll() {
@@ -13,25 +17,8 @@ class Net {
             },
             type: 'POST',
             success: function (data) {
-                console.log(data)
-                maple.FillSelect()
-                maple.FillData()
-            },
-            error: function (xhr, status, error) {
-                console.log(error)
-            },
-        })
-    }
-
-    SelectOne() {
-        console.log('net.SelectOne()')
-        $.ajax({
-            data: {
-                type: 'SELECT-ONE'
-            },
-            type: 'POST',
-            success: function (data) {
-                console.log(data)
+                maple.FillSelect(data)
+                maple.FillData(data)
             },
             error: function (xhr, status, error) {
                 console.log(error)
@@ -49,7 +36,7 @@ class Net {
             },
             type: 'POST',
             success: function (data) {
-                console.log(data)
+                pClass.SelectAll()
             },
             error: function (xhr, status, error) {
                 console.log(error)
@@ -57,7 +44,7 @@ class Net {
         })
     }
 
-    DeleteID(rowId = 0) {
+    DeleteID(rowId) {
         console.log('net.DeleteID()')
         $.ajax({
             data: {
@@ -66,7 +53,7 @@ class Net {
             },
             type: 'POST',
             success: function (data) {
-                console.log(data)
+                pClass.SelectAll()
             },
             error: function (xhr, status, error) {
                 console.log(error)
@@ -74,16 +61,17 @@ class Net {
         })
     }
 
-    UpdateID(rowId = 0) {
+    UpdateID(rowId, pass) {
         console.log('net.UpdateID()')
         $.ajax({
             data: {
                 type: 'UPDATE-ID',
-                id: rowId
+                id: rowId,
+                pass: pass
             },
             type: 'POST',
             success: function (data) {
-                console.log(data)
+                pClass.SelectAll()
             },
             error: function (xhr, status, error) {
                 console.log(error)

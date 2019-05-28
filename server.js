@@ -27,12 +27,12 @@ var server = http.createServer(function (req, res) {
 })
 
 server.listen(PORT, function () {
-    console.log('serwer startuje na porcie ' + PORT)
+    console.log('serwer started on port: ' + PORT)
 })
 
-mongoClient.connect("mongodb://localhost/maple-test", function (err, db) {
+mongoClient.connect("mongodb://localhost/maple", function (err, db) {
     if (err) console.log(err)
-    else console.log("mongo podłączone")
+    else console.log("mongo connected")
     _db = db
 
     db.createCollection("users", function (err, resColl) {
@@ -123,28 +123,26 @@ function postResponse(req, res) {
         reqData += data;
     })
 
-    req.on('end', function () {
+    req.on('end', async () => {
         reqData = qs.parse(reqData)
+        console.log(reqData)
         if (reqData.type == 'INSERT') {
-            console.log(reqData)
-            
+            let insertData = { name: reqData.name, pass: reqData.pass}
+            dbOps.Insert(coll, insertData)
+            res.end('')
 
         } else if (reqData.type == 'SELECT-ALL') {
-            console.log(reqData)
-            resData = dbOps.SelectAll(coll)
-            res.end(resData)
-
-        } else if (reqData.type == 'SELECT-ONE') {
-            console.log(reqData)
+            resData = await dbOps.SelectAll(coll)
             res.end(resData)
 
         } else if (reqData.type == 'DELETE-ID') {
-            console.log(reqData)
-            res.end(resData)
+            dbOps.DeleteById(ObjectID, coll, reqData.id)
+            res.end('')
 
         } else if (reqData.type == 'UPDATE-ID') {
-            console.log(reqData)
-            res.end(resData)
+            let updateData = { id: reqData.id, pass: reqData.pass}
+            dbOps.UpdateById(ObjectID, coll, updateData)
+            res.end('')
 
         } else {
             console.error('Invalid request')
