@@ -11,6 +11,7 @@ var PORT = 5500
 var dbOps = new Operations()
 var _db
 var coll
+var dbServer
 
 
 var server = http.createServer(function (req, res) {
@@ -126,8 +127,23 @@ function postResponse(req, res) {
     req.on('end', async () => {
         reqData = qs.parse(reqData)
         console.log(reqData)
-        if (reqData.type == 'INSERT') {
-            let insertData = { name: reqData.name, pass: reqData.pass}
+        if (reqData.type == 'CONNECT-DB') {
+            if (reqData.address == 'LMAO') {
+                dbServer = reqData.address
+                res.end('YAY')
+            } else {
+                res.end('NAY')
+            }
+
+        } else if (reqData.type == 'CONNECT-LOCAL') {
+            dbServer = 'localhost'
+            res.end('YAY')
+
+        } else if (reqData.type == 'LIST-DB') {
+            res.end('')
+
+        } else if (reqData.type == 'INSERT') {
+            let insertData = { name: reqData.name, pass: reqData.pass }
             dbOps.Insert(coll, insertData)
             res.end('')
 
@@ -140,7 +156,7 @@ function postResponse(req, res) {
             res.end('')
 
         } else if (reqData.type == 'UPDATE-ID') {
-            let updateData = { id: reqData.id, pass: reqData.pass}
+            let updateData = { id: reqData.id, pass: reqData.pass }
             dbOps.UpdateById(ObjectID, coll, updateData)
             res.end('')
 

@@ -3,3 +3,29 @@
      margin: 0;
      box-sizing: border-box;
  }
+
+ #header {
+     width: 100%;
+     height: 100px;
+     text-align: center;
+     font-size: 3em;
+     line-height: 90px;
+ }
+
+ .header-connected {
+    border-bottom: 10px solid #2FCF2F;
+    background-color: #2F7F2F;
+    color: #2FCF2F;
+ }
+
+ .header-disconnected {
+    border-bottom: 10px solid #CF2F2F;
+    background-color: #7F2F2F;
+    color: #CF2F2F;
+ }
+
+ .header-waiting {
+    border-bottom: 10px solid #CFCF2F;
+    background-color: #7F7F2F;
+    color: #CFCF2F;
+ }

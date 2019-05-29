@@ -4,14 +4,37 @@ class Main {
     constructor() {
         console.log('Main Initialized')
         this.InitListeners()
+        this.AskDb()
+
+        this.dbAddress
     }
 
-    NetTest() {
-        net.SelectAll()
-        net.SelectOne()
-        net.Insert()
-        net.DeleteId()
-        net.UpdateID()
+    async AskDb() {
+        let address = window.prompt('Database Server Address?')
+        if (address != '' && address != null) {
+            let test = await net.RequestDB(address)
+            console.log(test)
+            if (test == 'NAY') {
+                if (window.confirm('Couldn\'t connect to: ' + address + '\nDo you want to try connecting to local server instead?')) {
+                    let test1 = await net.RequestLocal()
+                    if (test1 == 'YAY') {
+                        this.dbAddress = '127.0.0.1'
+                        $('#header').addClass('header-connected').removeClass('header-waiting')
+                    }
+                } else {
+                    this.dbAddress = 'Disconnected'
+                    $('#header').addClass('header-disconnected').removeClass('header-waiting')
+                }
+            } else {
+                this.dbAddress = address
+                $('#header').addClass('header-connected').removeClass('header-waiting')
+            }
+        } else {
+            this.dbAddress = 'Disconnected'
+            $('#header').addClass('header-disconnected').removeClass('header-waiting')
+        }
+
+        $('#header').html('SpecMyAdmin on: ' + this.dbAddress)
     }
 
     FillSelect(selectData) {

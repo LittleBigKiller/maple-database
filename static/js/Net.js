@@ -6,7 +6,42 @@ class Net {
     constructor() {
         console.log('Net Initialized')
         pClass = this
-        this.SelectAll()
+        /* this.SelectAll() */
+    }
+
+    RequestDB(address) {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                data: {
+                    type: 'CONNECT-DB',
+                    address: address
+                },
+                type: 'POST',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                },
+            })
+        })
+    }
+
+    RequestLocal() {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                data: {
+                    type: 'CONNECT-LOCAL'
+                },
+                type: 'POST',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                },
+            })
+        })
     }
 
     SelectAll() {
