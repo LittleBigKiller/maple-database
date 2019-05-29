@@ -1,31 +1,119 @@
- * {
-     padding: 0;
-     margin: 0;
-     box-sizing: border-box;
- }
+* {
+   padding: 0;
+   margin: 0;
+   box-sizing: border-box;
+   --headerHeight: 100px
+}
 
- #header {
-     width: 100%;
-     height: 100px;
-     text-align: center;
-     font-size: 3em;
-     line-height: 90px;
- }
+#header {
+   width: 100%;
+   height: var(--headerHeight);
+   text-align: center;
+   font-size: 3em;
+   line-height: 90px;
+}
 
- .header-connected {
-    border-bottom: 10px solid #2FCF2F;
-    background-color: #2F7F2F;
-    color: #2FCF2F;
- }
+#panel-blackout {
+   width: 100vw;
+   height: calc(100vh - var(--headerHeight));
+   line-height: calc(100vh - var(--headerHeight));
+   background-color: #000000DF;
+   color: #FFFFFF;
+   position: absolute;
+   z-index: 1000;
+   text-align: center;
+   font-size: 5em;
+}
 
- .header-disconnected {
-    border-bottom: 10px solid #CF2F2F;
-    background-color: #7F2F2F;
-    color: #CF2F2F;
- }
+#panel-left {
+   width: 500px;
+   height: calc(100vh - var(--headerHeight));
+   border-right: 5px solid #2F2FCF;
+   background-color: #7F7F7F;
+   overflow: hidden auto;
+}
 
- .header-waiting {
-    border-bottom: 10px solid #CFCF2F;
-    background-color: #7F7F2F;
-    color: #CFCF2F;
- }
+.header-connected {
+   border-bottom: 10px solid #2FCF2F;
+   background-color: #2F7F2F;
+   color: #2FCF2F;
+}
+
+.header-disconnected {
+   border-bottom: 10px solid #CF2FCF;
+   background-color: #7F2F7F;
+   color: #CF2FCF;
+}
+
+.header-waiting {
+   border-bottom: 10px solid #CFCF2F;
+   background-color: #7F7F2F;
+   color: #CFCF2F;
+}
+
+.button-create {
+   height: 50px;
+   width: 200px;
+   font-weight: bolder;
+   background-color: #2F2F7F;
+   border: 2px solid #2F2FCF;
+   color: #FFFFFF;
+   cursor: pointer;
+}
+
+.button-delete {
+   height: 50px;
+   width: 200px;
+   font-weight: bolder;
+   background-color: #7F2F2F;
+   border: 2px solid #CF2F2F;
+   color: #FFFFFF;
+   cursor: pointer;
+}
+
+.list-display {
+   margin: 10px 0;
+   width: 450px;
+   height: 300px;
+   overflow: hidden auto;
+   border: 2px solid #000000;
+   background-color: #FFFFFF;
+}
+
+.ctrl-block {
+   margin: 10px 10px;
+}
+
+.block-header {
+   padding: 5px;
+   color: #FFFFFF;
+   font-size: 1.5em;
+   font-weight: bolder;
+}
+
+.block-header>div {
+   display: inline;
+}
+
+.block-header-content {
+   color: #2F2FCF;
+}
+
+.list-object {
+   width: 100%;
+   height: 50px;
+   font-size: 2em;
+   padding: 5px;
+   color: #2F2FCF;
+   cursor: pointer;
+}
+
+.list-object:hover {
+   background-color: #2F2FCF;
+   color: #FFFFFF;
+}
+
+.list-object:active {
+   background-color: #CF2F2F;
+   color: #FFFFFF;
+}

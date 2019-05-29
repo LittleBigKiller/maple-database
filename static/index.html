@@ -17,21 +17,33 @@
 
 <body>
     <div id="cont">
-        <h1 id="header" class="header-waiting">SpecMyAdmin</h1>
-        <input id="iName">
-        <input id="iPass">
-        <button id="bAdd">Add User</button>
-        <button id="bRefresh">Refresh Data</button>
-        <br>
+        <div id="header" class="header-waiting">SpecMyAdmin</div>
+        <div id="panel-blackout">PANEL BLOCKED</div>
+        <div id="panel-left">
+            <div id="db-block" class="ctrl-block">
+                <div id="db-header" class="block-header">
+                    <div id="db-header-static" class="block-header-static">current database: / </div>
+                    <div id="db-header-content" class="block-header-content"></div>
+                </div>
+                <div id="db-buttons">
+                    <button id="bDBCreate" class="button-create">Create New Database</button>
+                    <button id="bDBDelete" class="button-delete">Delete Current Database</button>
+                </div>
+                <div id="db-list" class="list-display"></div>
+            </div>
 
-        <button id="bDelete">Remove Selected</button>
-        <button id="bUpdate">Update Selected</button>
-        <select id="sID"></select>
-        <br>
-
-        <textarea id="dDisplay" style="width: 500px; height: 300px; resize: none;" readonly>
-
-        </textarea>
+            <div id="coll-block" class="ctrl-block">
+                <div id="coll-header" class="block-header">
+                    <div id="coll-header-static" class="block-header-static">current collection: / </div>
+                    <div id="coll-header-content" class="block-header-content"></div>
+                </div>
+                <div id="coll-buttons">
+                    <button id="bCollCreate" class="button-create">Create New Collection</button>
+                    <button id="bCollDelete" class="button-delete">Delete Current Collection</button>
+                </div>
+                <div id="coll-list" class="list-display"></div>
+            </div>
+        </div>
     </div>
 
     <script>

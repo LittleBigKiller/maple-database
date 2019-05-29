@@ -6,13 +6,12 @@ var ObjectID = require('mongodb').ObjectID
 var Operations = require("./modules/Operations.js")
 var PORT = 5500
 
-
-
 var dbOps = new Operations()
-var _db
-var coll
-var dbServer
 
+
+var dbServer
+var dbAdmin
+var cDB
 
 var server = http.createServer(function (req, res) {
     console.log(req.method + ' ' + req.url)
@@ -31,19 +30,6 @@ server.listen(PORT, function () {
     console.log('serwer started on port: ' + PORT)
 })
 
-mongoClient.connect("mongodb://localhost/maple", function (err, db) {
-    if (err) console.log(err)
-    else console.log("mongo connected")
-    _db = db
-
-    db.createCollection("users", function (err, resColl) {
-        console.log('Collection users added/exists')
-        coll = resColl
-    })
-})
-
-
-
 function getResponse(req, res) {
     if (req.url === '/favicon.ico') {
         fs.readFile(__dirname + '/static/img/logo.png', function (error, data) {
@@ -58,7 +44,7 @@ function getResponse(req, res) {
     } else if (req.url.indexOf('.js') != -1) {
         fs.readFile(__dirname + '/static/' + decodeURI(req.url), function (error, data) {
             if (!error) {
-                res.writeHead(200, { 'Content-type': 'aplication/javascript; charset=utf-8' })
+                res.writeHead(200, { 'Content-type': 'application/javascript; charset=utf-8' })
                 res.write(data)
                 res.end('')
             } else {
@@ -128,37 +114,103 @@ function postResponse(req, res) {
         reqData = qs.parse(reqData)
         console.log(reqData)
         if (reqData.type == 'CONNECT-DB') {
-            if (reqData.address == 'LMAO') {
+            mongoClient.connect('mongodb://' + reqData.address + '/admin', (err, db) => {
+                if (err) {
+                    console.error(err)
+                    res.end('NAY')
+                    return
+                }
+                dbAdmin = db
                 dbServer = reqData.address
                 res.end('YAY')
-            } else {
-                res.end('NAY')
-            }
+            })
 
         } else if (reqData.type == 'CONNECT-LOCAL') {
-            dbServer = 'localhost'
-            res.end('YAY')
+            mongoClient.connect('mongodb://localhost/admin', (err, db) => {
+                if (err) {
+                    console.error(err)
+                    res.end('NAY')
+                    return
+                }
+                dbAdmin = db
+                dbServer = 'localhost'
+                res.end('YAY')
+            })
 
         } else if (reqData.type == 'LIST-DB') {
+            dbAdmin.admin().listDatabases(function (err, dbs) {
+                if (err) {
+                    console.log(err)
+                    res.end('ERROR')
+                    return
+                }
+                console.log(dbs.databases)
+                res.end(JSON.stringify(dbs.databases))
+            })
+
+        } else if (reqData.type == 'SELECT-DB') {
+            mongoClient.connect('mongodb://' + dbServer + '/' + reqData.db, (err, db) => {
+                if (err) {
+                    console.error(err)
+                    res.end('NAY')
+                    return
+                }
+                cDB = db
+                res.end('YAY')
+            })
+
+        } else if (reqData.type == 'DELETE-DB') {
+            cDB.dropDatabase((err, result) => {
+                if (err) {
+                    console.error(err)
+                    res.end('NAY')
+                    return
+                }
+                cDB = null
+                res.end('YAY')
+            })
+
+        } else if (reqData.type == 'CREATE-DB') {
+            mongoClient.connect('mongodb://' + dbServer + '/' + reqData.db, (err, db) => {
+                if (err) {
+                    console.error(err)
+                    res.end('NAY')
+                    return
+                }
+                db.createCollection(reqData.coll, (err, db) => {
+                    if (err) {
+                        console.error(err)
+                        res.end('NAY')
+                        return
+                    }
+                    res.end('YAY')
+                })
+            })
+
+        } else if (reqData.type == 'LIST-COLL') {
+            cDB.listCollections().toArray(function (err, cNames) {
+                if (err) {
+                    console.log(err)
+                    res.end('ERROR')
+                    return
+                }
+                console.log(cNames)
+                res.end(JSON.stringify(cNames))
+            })
+
+        } else if (reqData.type == 'DELETE-COLL') {
+            cDB.collection(reqData.coll).drop()
             res.end('')
 
-        } else if (reqData.type == 'INSERT') {
-            let insertData = { name: reqData.name, pass: reqData.pass }
-            dbOps.Insert(coll, insertData)
-            res.end('')
-
-        } else if (reqData.type == 'SELECT-ALL') {
-            resData = await dbOps.SelectAll(coll)
-            res.end(resData)
-
-        } else if (reqData.type == 'DELETE-ID') {
-            dbOps.DeleteById(ObjectID, coll, reqData.id)
-            res.end('')
-
-        } else if (reqData.type == 'UPDATE-ID') {
-            let updateData = { id: reqData.id, pass: reqData.pass }
-            dbOps.UpdateById(ObjectID, coll, updateData)
-            res.end('')
+        } else if (reqData.type == 'CREATE-COLL') {
+            cDB.createCollection(reqData.coll, (err, db) => {
+                if (err) {
+                    console.error(err)
+                    res.end('NAY')
+                    return
+                }
+                res.end('YAY')
+            })
 
         } else {
             console.error('Invalid request')

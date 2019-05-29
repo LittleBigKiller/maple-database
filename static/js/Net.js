@@ -9,7 +9,7 @@ class Net {
         /* this.SelectAll() */
     }
 
-    RequestDB(address) {
+    RequestSrv(address) {
         return new Promise(function(resolve, reject) {
             $.ajax({
                 data: {
@@ -44,73 +44,144 @@ class Net {
         })
     }
 
-    SelectAll() {
-        console.log('net.SelectAll()')
-        $.ajax({
-            data: {
-                type: 'SELECT-ALL'
-            },
-            type: 'POST',
-            success: function (data) {
-                maple.FillSelect(data)
-                maple.FillData(data)
-            },
-            error: function (xhr, status, error) {
-                console.log(error)
-            },
+    ListDB() {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                data: {
+                    type: 'LIST-DB'
+                },
+                type: 'POST',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                },
+            })
         })
     }
 
-    Insert(name, pass) {
-        console.log('net.Insert()')
-        $.ajax({
-            data: {
-                type: 'INSERT',
-                name: name,
-                pass: pass
-            },
-            type: 'POST',
-            success: function (data) {
-                pClass.SelectAll()
-            },
-            error: function (xhr, status, error) {
-                console.log(error)
-            },
+    SelectDB(dbName) {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                data: {
+                    type: 'SELECT-DB',
+                    db: dbName
+                },
+                type: 'POST',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                },
+            })
         })
     }
 
-    DeleteID(rowId) {
-        console.log('net.DeleteID()')
-        $.ajax({
-            data: {
-                type: 'DELETE-ID',
-                id: rowId
-            },
-            type: 'POST',
-            success: function (data) {
-                pClass.SelectAll()
-            },
-            error: function (xhr, status, error) {
-                console.log(error)
-            },
+    CreateDB(dbName, collName) {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                data: {
+                    type: 'CREATE-DB',
+                    db: dbName,
+                    coll: collName
+                },
+                type: 'POST',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                },
+            })
         })
     }
 
-    UpdateID(rowId, pass) {
-        console.log('net.UpdateID()')
-        $.ajax({
-            data: {
-                type: 'UPDATE-ID',
-                id: rowId,
-                pass: pass
-            },
-            type: 'POST',
-            success: function (data) {
-                pClass.SelectAll()
-            },
-            error: function (xhr, status, error) {
-                console.log(error)
-            },
+    DeleteDB() {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                data: {
+                    type: 'DELETE-DB'
+                },
+                type: 'POST',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                },
+            })
+        })
+    }
+
+    ListColl() {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                data: {
+                    type: 'LIST-COLL'
+                },
+                type: 'POST',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                },
+            })
+        })
+    }
+
+    /* SelectColl() {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                data: {
+                    type: 'SELECT-COLL'
+                },
+                type: 'POST',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                },
+            })
+        })
+    } */
+
+    CreateColl(collName) {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                data: {
+                    type: 'CREATE-COLL',
+                    coll: collName
+                },
+                type: 'POST',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                },
+            })
+        })
+    }
+
+    DeleteColl(collName) {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                data: {
+                    type: 'DELETE-COLL',
+                    coll: collName
+                },
+                type: 'POST',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                },
+            })
         })
     }
 }
