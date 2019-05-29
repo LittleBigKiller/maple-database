@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>[Maple] Database</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+
+    <script src="/libs/jquery331.js"></script>
+
+    <script src="/js/Net.js"></script>
+    <script src="/js/Main.js"></script>
+</head>
+
+<body>
+    <div id="cont">
+        <input id="iName">
+        <input id="iPass">
+        <button id="bAdd">Add User</button>
+        <button id="bRefresh">Refresh Data</button>
+        <br>
+
+        <button id="bDelete">Remove Selected</button>
+        <button id="bUpdate">Update Selected</button>
+        <select id="sID"></select>
+        <br>
+
+        <textarea id="dDisplay" style="width: 500px; height: 300px; resize: none;" readonly>
+
+        </textarea>
+    </div>
+
+    <script>
+        var net = new Net()
+        var maple = new Main()
+    </script>
+</body>
+
+</html>
