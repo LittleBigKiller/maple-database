@@ -132,23 +132,6 @@ class Net {
         })
     }
 
-    /* SelectColl() {
-        return new Promise(function(resolve, reject) {
-            $.ajax({
-                data: {
-                    type: 'SELECT-COLL'
-                },
-                type: 'POST',
-                success: function (data) {
-                    resolve(data)
-                },
-                error: function (xhr, status, error) {
-                    console.log(error)
-                },
-            })
-        })
-    } */
-
     CreateColl(collName) {
         return new Promise(function(resolve, reject) {
             $.ajax({
@@ -172,6 +155,24 @@ class Net {
             $.ajax({
                 data: {
                     type: 'DELETE-COLL',
+                    coll: collName
+                },
+                type: 'POST',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                },
+            })
+        })
+    }
+
+    ListDoc(collName) {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                data: {
+                    type: 'LIST-DOC',
                     coll: collName
                 },
                 type: 'POST',

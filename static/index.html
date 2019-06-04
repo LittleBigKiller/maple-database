@@ -47,26 +47,26 @@
             </div>
             <div id="panel-right">
                 <div id="doc-block" class="ctrl-block">
-                    <div id="doc-header" class="block-header">
+                    <!-- <div id="doc-header" class="block-header">
                         <div id="doc-header-static" class="block-header-static">current document: / </div>
                         <div id="doc-header-content" class="block-header-content"></div>
+                    </div> -->
+                    <div id="doc-ctrl">
+                        <label for="iName">Variable Name</label><input id="iName">
+                        <label for="iVal">Variable Value</label><input id="iVal">
                     </div>
                     <div id="doc-buttons" class="button-cont">
                         <button id="bDocCreate" class="button-create">Create New Document</button>
                         <button id="bDocDelete" class="button-delete">Delete Current Document</button>
                     </div>
-                    <div id="doc-list" class="list-display"></div>
+                    <textarea id="doc-list" class="edit-area" readonly></textarea>
                 </div>
                 <div id="edit-block" class="ctrl-block">
-                    <div id="edit-ctrl">
-                        <label for="iName">Variable Name</label><input id="iName">
-                        <label for="iVal">Variable Value</label><input id="iVal">
-                    </div>
+                    
                     <div id="edit-buttons" class="button-cont">
                         <button id="bEditAdd" class="button-create edit">Add Variable</button>
                         <button id="bEditDelete" class="button-delete edit">Delete Variable</button>
                     </div>
-                    <textarea id="edit-textarea" class="edit-area" readonly></textarea>
                 </div>
             </div>
         </div>

@@ -77,12 +77,14 @@ class Main {
         if (this.cDB != null) {
             await net.DeleteDB(this.cDB)
 
-            $('#db-header-content').html('')
+            $('#db-header-content').empty()
             this.cDB = null
 
-            let collList = $('#coll-list').empty()
-            $('#coll-header-content').html('')
+            $('#coll-list').empty()
+            $('#coll-header-content').empty()
             this.cColl = null
+
+            $('#doc-list').empty()
 
             this.AskDB()
         }
@@ -104,6 +106,8 @@ class Main {
                 $('#coll-header-content').html(e.target.innerHTML)
 
                 this.cColl = e.target.innerHTML
+
+                this.AskDoc()
             })
         }
     }
@@ -123,6 +127,14 @@ class Main {
         await net.CreateColl(name)
 
         this.AskColl()
+    }
+
+    async AskDoc() {
+        // [TODO]: clear doc table when coll or db removed
+
+        let docList = $('#doc-list').empty()
+        let docs = JSON.parse(await net.ListDoc(this.cColl))
+        docList.html(JSON.stringify(docs, undefined, 2))
     }
 
     InitListeners() {

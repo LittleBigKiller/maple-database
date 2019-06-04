@@ -1,19 +1,19 @@
-var http = require('http')
-var qs = require('querystring')
-var fs = require('fs')
-var mongoClient = require('mongodb').MongoClient
-var ObjectID = require('mongodb').ObjectID
-var Operations = require("./modules/Operations.js")
-var PORT = 5500
+const http = require('http')
+const qs = require('querystring')
+const fs = require('fs')
+const mongoClient = require('mongodb').MongoClient
+const ObjectID = require('mongodb').ObjectID
+const Operations = require("./modules/Operations.js")
+const PORT = 5500
 
-var dbOps = new Operations()
+const dbOps = new Operations()
 
 
-var dbServer
-var dbAdmin
-var cDB
+let dbServer
+let dbAdmin
+let cDB
 
-var server = http.createServer(function (req, res) {
+let server = http.createServer(function (req, res) {
     console.log(req.method + ' ' + req.url)
     switch (req.method) {
         case 'GET':
@@ -103,8 +103,8 @@ function getResponse(req, res) {
 }
 
 function postResponse(req, res) {
-    var reqData = '';
-    var resData
+    let reqData = '';
+    let resData
 
     req.on('data', function (data) {
         reqData += data;
@@ -144,7 +144,6 @@ function postResponse(req, res) {
                     res.end('ERROR')
                     return
                 }
-                console.log(dbs.databases)
                 res.end(JSON.stringify(dbs.databases))
             })
 
@@ -194,7 +193,6 @@ function postResponse(req, res) {
                     res.end('ERROR')
                     return
                 }
-                console.log(cNames)
                 res.end(JSON.stringify(cNames))
             })
 
@@ -216,6 +214,7 @@ function postResponse(req, res) {
         //   vvv       UNSTABLE AF          vvv  
         // ======================================
         } else if (reqData.type == 'LIST-DOC') {
+            let coll = cDB.collection(reqData.coll)
             resData = await dbOps.SelectAll(coll)
             res.end(resData)
 
