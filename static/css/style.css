@@ -2,7 +2,8 @@
    padding: 0;
    margin: 0;
    box-sizing: border-box;
-   --headerHeight: 100px
+   --headerHeight: 100px;
+   --leftWidth: 500px;
 }
 
 #header {
@@ -25,12 +26,33 @@
    font-size: 5em;
 }
 
+#panel-cont {
+   width: 100vw;
+   height: calc(100vh - var(--headerHeight));
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+}
+
 #panel-left {
-   width: 500px;
+   width: var(--leftWidth);
    height: calc(100vh - var(--headerHeight));
    border-right: 5px solid #2F2FCF;
    background-color: #7F7F7F;
    overflow: hidden auto;
+}
+
+#panel-right {
+   width: calc(100vw - var(--leftWidth));
+   height: calc(100vh - var(--headerHeight));
+   background-color: #CFCFCF;
+   overflow: hidden auto;
+   padding: 10px;
+}
+
+#panel-right .block-header {
+   color: #000000;
 }
 
 .header-connected {
@@ -51,6 +73,14 @@
    color: #CFCF2F;
 }
 
+.button-cont {
+   width: 450px;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-around;
+   align-items: center;
+}
+
 .button-create {
    height: 50px;
    width: 200px;
@@ -61,6 +91,11 @@
    cursor: pointer;
 }
 
+.button-create.edit {
+   background-color: #2F7F2F;
+   border: 2px solid #2FCF2F;
+}
+
 .button-delete {
    height: 50px;
    width: 200px;
@@ -69,6 +104,11 @@
    border: 2px solid #CF2F2F;
    color: #FFFFFF;
    cursor: pointer;
+}
+
+.button-delete.edit {
+   background-color: #7F7F2F;
+   border: 2px solid #CFCF2F;
 }
 
 .list-display {
@@ -116,4 +156,14 @@
 .list-object:active {
    background-color: #CF2F2F;
    color: #FFFFFF;
+}
+
+.edit-area {
+   margin: 10px 0;
+   width: 450px;
+   height: 300px;
+   overflow: hidden auto;
+   border: 2px solid #000000;
+   background-color: #FFFFFF;
+   resize: none;
 }

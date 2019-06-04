@@ -212,6 +212,30 @@ function postResponse(req, res) {
                 res.end('YAY')
             })
 
+        // ======================================
+        //   vvv       UNSTABLE AF          vvv  
+        // ======================================
+        } else if (reqData.type == 'LIST-DOC') {
+            resData = await dbOps.SelectAll(coll)
+            res.end(resData)
+
+        } else if (reqData.type == 'DELETE-DOC') {
+            dbOps.DeleteById(ObjectID, coll, reqData.id)
+            res.end('')
+
+        } else if (reqData.type == 'CREATE-DOC') {
+            let insertData = { name: reqData.name, pass: reqData.pass}
+            dbOps.Insert(coll, insertData)
+            res.end('')
+
+        } else if (reqData.type == 'UPDATE-DOC') {
+            let updateData = { id: reqData.id, pass: reqData.pass}
+            dbOps.UpdateById(ObjectID, coll, updateData)
+            res.end('')
+        // ======================================
+        //   ^^^       UNSTABLE AF          ^^^  
+        // ======================================
+
         } else {
             console.error('Invalid request')
             res.end('ERR: Invalid request')

@@ -15,12 +15,9 @@ class Main {
 
     async AskSrv() {
         let address = window.prompt('Database Server Address?')
-        console.log(address)
-        console.log(this.dbAddress)
 
         if (address != null) {
             let test = await net.RequestSrv(address)
-            console.log(test)
             if (test != 'YAY') {
                 if (window.confirm('Couldn\'t connect to: ' + address + '\nDo you want to try connecting to local server instead?')) {
                     let test1 = await net.RequestLocal()

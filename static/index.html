@@ -19,29 +19,55 @@
     <div id="cont">
         <div id="header" class="header-waiting">SpecMyAdmin</div>
         <div id="panel-blackout">PANEL BLOCKED</div>
-        <div id="panel-left">
-            <div id="db-block" class="ctrl-block">
-                <div id="db-header" class="block-header">
-                    <div id="db-header-static" class="block-header-static">current database: / </div>
-                    <div id="db-header-content" class="block-header-content"></div>
+        <div id="panel-cont">
+            <div id="panel-left">
+                <div id="db-block" class="ctrl-block">
+                    <div id="db-header" class="block-header">
+                        <div id="db-header-static" class="block-header-static">current database: / </div>
+                        <div id="db-header-content" class="block-header-content"></div>
+                    </div>
+                    <div id="db-buttons" class="button-cont">
+                        <button id="bDBCreate" class="button-create">Create New Database</button>
+                        <button id="bDBDelete" class="button-delete">Delete Current Database</button>
+                    </div>
+                    <div id="db-list" class="list-display"></div>
                 </div>
-                <div id="db-buttons">
-                    <button id="bDBCreate" class="button-create">Create New Database</button>
-                    <button id="bDBDelete" class="button-delete">Delete Current Database</button>
-                </div>
-                <div id="db-list" class="list-display"></div>
-            </div>
 
-            <div id="coll-block" class="ctrl-block">
-                <div id="coll-header" class="block-header">
-                    <div id="coll-header-static" class="block-header-static">current collection: / </div>
-                    <div id="coll-header-content" class="block-header-content"></div>
+                <div id="coll-block" class="ctrl-block">
+                    <div id="coll-header" class="block-header">
+                        <div id="coll-header-static" class="block-header-static">current collection: / </div>
+                        <div id="coll-header-content" class="block-header-content"></div>
+                    </div>
+                    <div id="coll-buttons" class="button-cont">
+                        <button id="bCollCreate" class="button-create">Create New Collection</button>
+                        <button id="bCollDelete" class="button-delete">Delete Current Collection</button>
+                    </div>
+                    <div id="coll-list" class="list-display"></div>
                 </div>
-                <div id="coll-buttons">
-                    <button id="bCollCreate" class="button-create">Create New Collection</button>
-                    <button id="bCollDelete" class="button-delete">Delete Current Collection</button>
+            </div>
+            <div id="panel-right">
+                <div id="doc-block" class="ctrl-block">
+                    <div id="doc-header" class="block-header">
+                        <div id="doc-header-static" class="block-header-static">current document: / </div>
+                        <div id="doc-header-content" class="block-header-content"></div>
+                    </div>
+                    <div id="doc-buttons" class="button-cont">
+                        <button id="bDocCreate" class="button-create">Create New Document</button>
+                        <button id="bDocDelete" class="button-delete">Delete Current Document</button>
+                    </div>
+                    <div id="doc-list" class="list-display"></div>
                 </div>
-                <div id="coll-list" class="list-display"></div>
+                <div id="edit-block" class="ctrl-block">
+                    <div id="edit-ctrl">
+                        <label for="iName">Variable Name</label><input id="iName">
+                        <label for="iVal">Variable Value</label><input id="iVal">
+                    </div>
+                    <div id="edit-buttons" class="button-cont">
+                        <button id="bEditAdd" class="button-create edit">Add Variable</button>
+                        <button id="bEditDelete" class="button-delete edit">Delete Variable</button>
+                    </div>
+                    <textarea id="edit-textarea" class="edit-area" readonly></textarea>
+                </div>
             </div>
         </div>
     </div>
