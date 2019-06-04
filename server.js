@@ -219,7 +219,8 @@ function postResponse(req, res) {
             res.end(resData)
 
         } else if (reqData.type == 'DELETE-DOC') {
-            dbOps.DeleteById(ObjectID, coll, reqData.id)
+            let coll = cDB.collection(reqData.coll)
+            dbOps.DeleteById(ObjectID, coll, reqData.docId)
             res.end('')
 
         } else if (reqData.type == 'CREATE-DOC') {

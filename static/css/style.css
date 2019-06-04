@@ -139,6 +139,14 @@
    color: #2F2FCF;
 }
 
+.block-header-select {
+   height: 26px;
+   width: 250px;
+   padding: 2px;
+   color: #2F2FCF;
+   background-color: #CFCFCF;
+}
+
 .list-object {
    width: 100%;
    height: 50px;

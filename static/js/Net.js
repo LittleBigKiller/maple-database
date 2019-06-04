@@ -185,4 +185,41 @@ class Net {
             })
         })
     }
+
+    CreateDoc(collName) {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                data: {
+                    type: 'CREATE-DOC',
+                    coll: collName
+                },
+                type: 'POST',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                },
+            })
+        })
+    }
+
+    DeleteDoc(collName, docId) {
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                data: {
+                    type: 'DELETE-DOC',
+                    coll: collName,
+                    docId: docId
+                },
+                type: 'POST',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                },
+            })
+        })
+    }
 }

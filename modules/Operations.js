@@ -14,23 +14,23 @@ module.exports = function () {
                 })
             })
         },
-        
+
         DeleteById: function (ObjectID, collection, id) {
             collection.remove({ _id: ObjectID(id) }, function (err, data) {
                 console.log(data)
             })
         },
 
-        UpdateById: function (ObjectID, collection, data) {
+        UpdateById: function (ObjectID, collection, id, data) {
             collection.updateOne(
-                { _id: ObjectID(data.id) },
-                { $set: { pass: data.pass } },
+                { _id: ObjectID(id) },
+                { $set: data },
                 function (err, data) {
                     console.log("update: " + data)
                 })
         },
 
-        
+
     }
 
     return opers

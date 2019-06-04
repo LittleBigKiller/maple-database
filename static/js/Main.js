@@ -8,6 +8,7 @@ class Main {
         this.connected = false
         this.cDB = null
         this.cColl = null
+        this.cDoc = null
 
         this.InitListeners()
         this.AskSrv()
@@ -66,6 +67,10 @@ class Main {
                         this.cColl = null
                         $('#coll-header-content').html('')
 
+                        $('#doc-list').empty().attr('readonly')
+                        $('#doc-header-select').empty()
+                        this.cDoc = null
+
                         this.AskColl()
                     }
                 })
@@ -84,7 +89,9 @@ class Main {
             $('#coll-header-content').empty()
             this.cColl = null
 
-            $('#doc-list').empty()
+            $('#doc-list').empty().attr('readonly')
+            $('#doc-header-select').empty()
+            this.cDoc = null
 
             this.AskDB()
         }
@@ -107,6 +114,10 @@ class Main {
 
                 this.cColl = e.target.innerHTML
 
+                $('#doc-list').empty().attr('readonly')
+                $('#doc-header-select').empty()
+                this.cDoc = null
+
                 this.AskDoc()
             })
         }
@@ -116,8 +127,12 @@ class Main {
         if (this.cColl != null) {
             await net.DeleteColl(this.cColl)
 
-            $('#coll-header-content').html('')
+            $('#coll-header-content').empty()
             this.cColl = null
+
+            $('#doc-list').empty().attr('readonly')
+            $('#doc-header-select').empty()
+            this.cDoc = null
 
             this.AskColl()
         }
@@ -130,11 +145,46 @@ class Main {
     }
 
     async AskDoc() {
-        // [TODO]: clear doc table when coll or db removed
-
-        let docList = $('#doc-list').empty()
         let docs = JSON.parse(await net.ListDoc(this.cColl))
-        docList.html(JSON.stringify(docs, undefined, 2))
+
+        let select = $('#doc-header-select').empty()
+        for (let i in docs) {
+            let option = $('<option>')
+            option.html(docs[i]._id).val(docs[i]._id)
+            select.append(option)
+        }
+        select.prop("selectedIndex", -1)
+
+        select.on('change', (e) => {
+            $('#doc-list').empty().attr('readonly')
+            this.cDoc = e.target.value
+            this.FillDocBox()
+        })
+    }
+
+    async FillDocBox() {
+        let docs = JSON.parse(await net.ListDoc(this.cColl))
+        for (let i in docs) {
+            if (docs[i]._id == this.cDoc) $('#doc-list').html(JSON.stringify(docs[i], null, 2)).attr('readonly')
+        }
+    }
+
+    async RemoveDoc() {
+        if (this.cDoc != null) {
+            await net.DeleteDoc(this.cColl, this.cDoc)
+
+            $('#doc-list').empty()
+            $('#doc-header-select').empty()
+            this.cDoc = null
+
+            this.AskDoc()
+        }
+    }
+
+    async MakeDoc() {
+        /* await net.CreateColl()
+
+        this.AskColl() */
     }
 
     InitListeners() {
@@ -149,6 +199,19 @@ class Main {
         })
         $('#bCollDelete').on('click', () => {
             this.RemoveColl()
+        })
+        $('#bDocCreate').on('click', () => {
+            this.MakeDoc()
+        })
+        $('#bDocDelete').on('click', () => {
+            this.RemoveDoc()
+        })
+        $('#bDocEdit').on('click', () => {
+            if (this.cDoc)
+                $('#doc-list').removeAttr('readonly')
+        })
+        $('#bDocSave').on('click', () => {
+            this.RemoveDoc()
         })
     }
 }
