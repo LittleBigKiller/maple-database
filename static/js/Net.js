@@ -222,4 +222,25 @@ class Net {
             })
         })
     }
+
+    UpdateDoc(collName, docId, data) {
+        console.warn(data)
+        return new Promise(function(resolve, reject) {
+            $.ajax({
+                data: {
+                    type: 'UPDATE-DOC',
+                    coll: collName,
+                    docId: docId,
+                    data: data
+                },
+                type: 'POST',
+                success: function (data) {
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                },
+            })
+        })
+    }
 }

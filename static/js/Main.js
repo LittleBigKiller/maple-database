@@ -67,7 +67,7 @@ class Main {
                         this.cColl = null
                         $('#coll-header-content').html('')
 
-                        $('#doc-list').empty().attr('readonly')
+                        $('#doc-list').val('').attr('readonly')
                         $('#doc-header-select').empty()
                         this.cDoc = null
 
@@ -89,7 +89,7 @@ class Main {
             $('#coll-header-content').empty()
             this.cColl = null
 
-            $('#doc-list').empty().attr('readonly')
+            $('#doc-list').val('').attr('readonly')
             $('#doc-header-select').empty()
             this.cDoc = null
 
@@ -114,7 +114,7 @@ class Main {
 
                 this.cColl = e.target.innerHTML
 
-                $('#doc-list').empty().attr('readonly')
+                $('#doc-list').val('').attr('readonly')
                 $('#doc-header-select').empty()
                 this.cDoc = null
 
@@ -130,7 +130,7 @@ class Main {
             $('#coll-header-content').empty()
             this.cColl = null
 
-            $('#doc-list').empty().attr('readonly')
+            $('#doc-list').val('').attr('readonly')
             $('#doc-header-select').empty()
             this.cDoc = null
 
@@ -145,18 +145,26 @@ class Main {
     }
 
     async AskDoc() {
+        $('#doc-list').val('').attr('readonly')
         let docs = JSON.parse(await net.ListDoc(this.cColl))
 
+        let selected = false
         let select = $('#doc-header-select').empty()
         for (let i in docs) {
             let option = $('<option>')
             option.html(docs[i]._id).val(docs[i]._id)
             select.append(option)
+
+            /* if (docs[i]._id == this.cDoc) {
+                option.attr('selected', true)
+                selected = true
+            } */
         }
-        select.prop("selectedIndex", -1)
+        /* if (!selected) */
+            select.prop("selectedIndex", -1)
 
         select.on('change', (e) => {
-            $('#doc-list').empty().attr('readonly')
+            $('#doc-list').val('').attr('readonly')
             this.cDoc = e.target.value
             this.FillDocBox()
         })
@@ -165,7 +173,7 @@ class Main {
     async FillDocBox() {
         let docs = JSON.parse(await net.ListDoc(this.cColl))
         for (let i in docs) {
-            if (docs[i]._id == this.cDoc) $('#doc-list').html(JSON.stringify(docs[i], null, 2)).attr('readonly')
+            if (docs[i]._id == this.cDoc) $('#doc-list').val(JSON.stringify(docs[i], null, 2)).attr('readonly')
         }
     }
 
@@ -173,7 +181,7 @@ class Main {
         if (this.cDoc != null) {
             await net.DeleteDoc(this.cColl, this.cDoc)
 
-            $('#doc-list').empty()
+            $('#doc-list').val('')
             $('#doc-header-select').empty()
             this.cDoc = null
 
@@ -182,9 +190,16 @@ class Main {
     }
 
     async MakeDoc() {
-        /* await net.CreateColl()
+        await net.CreateDoc(this.cColl)
 
-        this.AskColl() */
+        this.AskDoc()
+    }
+
+    async SaveDoc() {
+        console.log(JSON.stringify(JSON.parse($('#doc-list').val())))
+        await net.UpdateDoc(this.cColl, this.cDoc, JSON.stringify(JSON.parse($('#doc-list').val())))
+
+        this.AskDoc()
     }
 
     InitListeners() {
@@ -201,17 +216,24 @@ class Main {
             this.RemoveColl()
         })
         $('#bDocCreate').on('click', () => {
-            this.MakeDoc()
+            if (this.cColl)
+                this.MakeDoc()
         })
         $('#bDocDelete').on('click', () => {
-            this.RemoveDoc()
+            if (this.cColl)
+                this.RemoveDoc()
         })
         $('#bDocEdit').on('click', () => {
-            if (this.cDoc)
+            if (this.cDoc) {
                 $('#doc-list').removeAttr('readonly')
+                let temp = JSON.parse($('#doc-list').val())
+                $('#doc-list').val(JSON.stringify(temp))
+            }
         })
         $('#bDocSave').on('click', () => {
-            this.RemoveDoc()
+            if (this.cDoc)
+                if ($('#doc-list').attr('readonly') === undefined)
+                    this.SaveDoc()
         })
     }
 }

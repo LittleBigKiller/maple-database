@@ -26,6 +26,10 @@ module.exports = function () {
                 { _id: ObjectID(id) },
                 { $set: data },
                 function (err, data) {
+                    if (err) {
+                        console.error(err)
+                        return
+                    }
                     console.log("update: " + data)
                 })
         },

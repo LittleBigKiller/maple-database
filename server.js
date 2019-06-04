@@ -224,13 +224,16 @@ function postResponse(req, res) {
             res.end('')
 
         } else if (reqData.type == 'CREATE-DOC') {
-            let insertData = { name: reqData.name, pass: reqData.pass}
-            dbOps.Insert(coll, insertData)
+            let coll = cDB.collection(reqData.coll)
+            dbOps.Insert(coll, {})
             res.end('')
 
         } else if (reqData.type == 'UPDATE-DOC') {
-            let updateData = { id: reqData.id, pass: reqData.pass}
-            dbOps.UpdateById(ObjectID, coll, updateData)
+            let coll = cDB.collection(reqData.coll)
+            let updateData = JSON.parse(reqData.data)
+            let id = updateData._id
+            delete updateData._id
+            dbOps.UpdateById(ObjectID, coll, id, updateData)
             res.end('')
         // ======================================
         //   ^^^       UNSTABLE AF          ^^^  
