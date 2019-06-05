@@ -24,7 +24,7 @@ module.exports = function () {
         UpdateById: function (ObjectID, collection, id, data) {
             collection.updateOne(
                 { _id: ObjectID(id) },
-                { $set: data },
+                data,
                 function (err, data) {
                     if (err) {
                         console.error(err)

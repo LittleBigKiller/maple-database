@@ -6,7 +6,6 @@ class Net {
     constructor() {
         console.log('Net Initialized')
         pClass = this
-        /* this.SelectAll() */
     }
 
     RequestSrv(address) {
